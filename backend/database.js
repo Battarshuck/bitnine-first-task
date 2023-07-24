@@ -8,13 +8,4 @@ const client = new Client({
     database: 'postgresDB'
 });
 
-const connectWithRetry = () => {
-    console.log('connecting to database...');
-    client.connect()
-        .catch((err) => {
-            console.log("Retrying to connect to database...")
-            setTimeout(connectWithRetry, 5000);
-        });
-};
-
-module.exports = {client, connectWithRetry};
+module.exports = client;

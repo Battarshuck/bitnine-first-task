@@ -1,11 +1,11 @@
 const express = require('express')
 const bcrypt = require('bcrypt') 
-const {client, connectWithRetry} = require('./database')    
+const client = require('./database')    
 const cors = require('cors')
 
 const app = express()
 const PORT = 3000
-connectWithRetry();
+client.connect()
 
 app.use(cors());
 app.use(express.json()); 
