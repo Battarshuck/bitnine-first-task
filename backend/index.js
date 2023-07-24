@@ -1,27 +1,24 @@
 const express = require('express')
 const bcrypt = require('bcrypt') 
-const client = require('./database')    
+const {client, connectWithRetry} = require('./database')    
+const cors = require('cors')
 
 const app = express()
-client.connect()
 const PORT = 3000
+connectWithRetry();
 
-// app.use((req, res, next) => {
-//     console.log('atTime:', Date.now(), ' using Method:', req.method, ' to Path:', req.path)
-// })
+app.use(cors());
+app.use(express.json()); 
+
 
 client.on('connect', () => {
     console.log('Connected to database')
 })
 
-client.on('end', () => {
-    console.log('Disconnected from database')
-})
 
-
-
-app.get('/login', async (req, res) => {
-    const { username, password } = req.query
+app.post('/login', async (req, res) => {
+    
+    const { username, password } = req.body
 
     if(!username || !password){
         res.status(500).send({ error: 'Please fill all the fields' })
@@ -50,7 +47,7 @@ app.get('/login', async (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-    let { username, password, email } = req.query
+    let { username, password, email } = req.body
 
     if(!username || !password || !email){
         res.status(500).send({ error: 'Please fill all the fields' });
@@ -66,12 +63,12 @@ app.post('/signup', async (req, res) => {
         const result = await client.query('INSERT INTO users (name, password, email) VALUES ($1, $2, $3)', [username, hashedPassword, email])      
         res.status(200).send({username, email, message: 'User created successfully' })
     }catch(e){  
-        res.status(500).send({ error: 'Database error' });
+        res.status(500).send({ error: 'username already used' });
     }
 })
 
 app.put('/delete', async (req, res) => {
-    const { username, password } = req.query
+    const { username, password } = req.body
 
     if(!username || !password){
         res.status(500).send({ error: 'Please fill all the fields' });
@@ -100,8 +97,7 @@ app.put('/delete', async (req, res) => {
 })
 
 app.put('/forgetpassword', async (req, res) => {
-    const { username, email, newPassword } = req.query
-
+    const { username, email, newPassword } = req.body
     if(!username || !email || !newPassword){
         res.status(500).send({ error: 'Please fill all the fields' });
         return;

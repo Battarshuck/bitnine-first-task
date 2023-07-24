@@ -1,0 +1,22 @@
+version: '3'
+services:
+  database:
+    image: postgres
+    ports:
+      - "5455:5432"
+    environment:
+      - POSTGRES_USER=mostafa
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=postgresDB 
+      
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+
+  frontend:
+    build: ./frontend/bitnine
+    ports:
+      - "8080:80"
