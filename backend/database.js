@@ -1,7 +1,8 @@
 const { Client } = require('pg');
 
 const client = new Client({
-    host: 'localhost',
+    //host: 'localhost', if you are using docker, you should use host.docker.internal instead of localhost
+    host: 'host.docker.internal',
     port: 5455,
     user: 'mostafa',
     password: '123',

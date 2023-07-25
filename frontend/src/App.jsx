@@ -5,6 +5,7 @@ import Login from './components/login/login'
 import SignUp from './components/signup/signUp'
 import ForgetPassword from './components/forgetpassword/forgetpassword'
 import Welcome from './components/welcome/Welcome'
+import NotFound from './components/notfound/notfound'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/forgetpassword" element={<ForgetPassword/>} />
         <Route path="/welcome" element={<Welcome/>} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </Router>
 )}
