@@ -11,6 +11,9 @@ jobs:
         with:
           node-version: '18' 
 
+      - name: pwd
+        run: pwd
+
       - name: change directory
         run: cd backend
 
