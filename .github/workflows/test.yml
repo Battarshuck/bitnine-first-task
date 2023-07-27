@@ -11,14 +11,13 @@ jobs:
         with:
           node-version: '18' 
 
-      - name: pwd
-        run: pwd
-
       - name: change directory
         run: cd backend
 
       - name: install dependencies
         run: npm install
+        working-directory: /home/runner/work/bitnine-first-task/bitnine-first-task/backend
 
       - name: run tests
         run: npm test
+        working-directory: /home/runner/work/bitnine-first-task/bitnine-first-task/backend
